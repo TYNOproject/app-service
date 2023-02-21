@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://myappserver-postgresql.postgres.database.azure.com:5432/postgres
+    username: omri
+    password: stavCh7052!
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
