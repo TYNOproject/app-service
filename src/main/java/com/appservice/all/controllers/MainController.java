@@ -1,30 +1,38 @@
 package com.appservice.all.controllers;
 
 import com.appservice.all.Entities.User;
-import com.appservice.all.Postgres.MainRepository;
+import com.appservice.all.Entities.UserRequest;
+import com.appservice.all.services.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/test")
+@RequestMapping("api/db")
 public class MainController {
 
     @Autowired
-    MainRepository mainRepository;
+    DatabaseService service;
 
     @GetMapping
     public String helloWorld(){
         return "Hello!";
     }
 
-    @GetMapping("/{name}")
-    public String heyYou(@PathVariable(value = "name") String name){
-        List<User> foundUsers = mainRepository.findAll();
-        return "Hey " + name + ", Here is a list of all users in DB:" + "\n" + foundUsers ;
+    @PostMapping("/add")
+    public ResponseEntity<?> addUser(@RequestBody UserRequest userRequest) {
+        String email = userRequest.getEmail();
+        String name = userRequest.getName();
+        Integer degree = userRequest.getDegree();
+        Integer departmentId = userRequest.getDepartmentId();
+        Integer year = userRequest.getYear();
+        boolean isTeacher = userRequest.isTeacher();
+        Double price = userRequest.getPrice();
+        String privateInfo = userRequest.getPrivateInfo();
+        service.saveUser(email, name, degree, departmentId, year, isTeacher, price, privateInfo);
+        return ResponseEntity.ok("User added successfully");
     }
 }
