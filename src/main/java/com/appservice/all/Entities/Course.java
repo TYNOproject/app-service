@@ -13,9 +13,8 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @Column(name = "department_id", nullable = false)
+    private Integer departmentId;
 
     @Column(name = "year", nullable = false)
     private Integer year;

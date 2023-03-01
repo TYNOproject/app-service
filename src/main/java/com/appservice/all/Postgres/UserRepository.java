@@ -1,4 +1,5 @@
 package com.appservice.all.Postgres;
+import com.appservice.all.Entities.Course;
 import com.appservice.all.Entities.Department;
 import com.appservice.all.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +11,10 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * FROM users WHERE is_teacher = true", nativeQuery = true)
     List<User> findAllTeachers();
-    User findByEmail(String email);
+    @Query(value = "SELECT * FROM users", nativeQuery = true)
+    List<User> findAllUsers();
 
+    User findByEmail(String email);
 }
 
 
