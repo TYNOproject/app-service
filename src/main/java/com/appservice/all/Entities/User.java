@@ -16,29 +16,31 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "degree")
-    private Integer degree;
+    @Column(name = "faculty_id", nullable = false)
+    private Integer facultyId;
 
-    @Column(name = "department_id")
+    @Column(name = "department_id", nullable = false)
     private Integer departmentId;
 
-    @Column(name = "year")
+    @Column(name = "degree", nullable = false)
+    private Integer degree;
+    @Column(name = "year", nullable = false)
     private Integer year;
-
-    @Column(name = "is_teacher")
+    @Column(name = "is_teacher", nullable = false)
     private Boolean isTeacher;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "private_info")
+    @Column(name = "private_info", nullable = false)
     private String privateInfo;
 }

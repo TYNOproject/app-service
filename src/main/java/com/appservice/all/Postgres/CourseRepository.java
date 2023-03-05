@@ -9,6 +9,12 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-    @Query(value = "SELECT * from courses where department_id=?1", nativeQuery = true)
-    List<Course> findCoursesByDepartmentId(Integer departmentId);
+
+    List<Course> findAllByDepartmentId(Integer departmentId);
+
+    Course findCourseByCourseName(String courseName);
+
+    List<Course> findAllByCourseNameContainingIgnoreCase(String courseName);
+
+    List<Course> findAllById(Iterable<Integer> courseIds);
 }
