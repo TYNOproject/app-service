@@ -1,41 +1,47 @@
 package com.appservice.all.Entities;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "classes")
 @Data
+@Builder
 public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private User teacher;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
-    private User student;
-
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_time")
-    private Date endTime;
+    private LocalDateTime endTime;
 
     @Column(name = "status")
     private String status;
 
-    @Column(name = "review")
-    private String review;
+    @Column(name = "stars_review")
+    private Integer starsReview;
+
+    @Column(name = "text_review")
+    private String textReview;
+
+    @Column(name = "course_id")
+    private Integer courseId;
+
+    @Column(name = "teacher_id")
+    private Integer teacherId;
+
+    @Column(name = "student_id")
+    private Integer studentId;
+
+    public boolean isAvailable() {
+        return this.status.equals("available");
+    }
 }

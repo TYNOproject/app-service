@@ -9,12 +9,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "SELECT * FROM users WHERE is_teacher = true", nativeQuery = true)
-    List<User> findAllTeachers();
-    @Query(value = "SELECT * FROM users", nativeQuery = true)
-    List<User> findAllUsers();
+    List<User> findAllByIsTeacherTrue();
+    List<User> findAll();
+    List<User> findAllById(Iterable<Integer> ids);
 
     User findByEmail(String email);
+
+    List<User> findAllByIsTeacherTrueAndNameContainingIgnoreCase(String searchString);
 }
 
 
