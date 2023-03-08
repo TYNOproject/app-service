@@ -167,4 +167,19 @@ public class DatabaseService {
             return false;
         }
     }
+
+    public String signIn(String email, String password) {
+        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(email));
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.getPassword().equals(password)) {
+                return "User signed in successfully";
+            } else {
+                return "Wrong password";
+            }
+        } else {
+            return "User not found";
+        }
+    }
 }
