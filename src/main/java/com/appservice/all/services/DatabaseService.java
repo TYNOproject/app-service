@@ -32,10 +32,11 @@ public class DatabaseService {
     private ClassRepository classRepository;
 
     @Transactional
-    public void saveUser(String email, String name, Integer degree,Integer faculty, Integer departmentId, Integer year,
+    public void saveUser(String email,String password, String name, Integer degree,Integer faculty, Integer departmentId, Integer year,
                          Boolean isTeacher, Double price, String privateInfo) {
         User user = User.builder()
                 .email(email)
+                .password(password)
                 .name(name)
                 .degree(degree)
                 .facultyId(faculty)

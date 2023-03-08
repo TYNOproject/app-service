@@ -38,7 +38,8 @@ public class MainController {
         boolean isTeacher = addNewUserRequest.isTeacher();
         Double price = addNewUserRequest.getPrice();
         String privateInfo = addNewUserRequest.getPrivateInfo();
-        service.saveUser(email, name, degree, faculty, departmentId, year, isTeacher, price, privateInfo);
+        String password = addNewUserRequest.getPassword();
+        service.saveUser(email, password, name, degree, faculty, departmentId, year, isTeacher, price, privateInfo);
         return ResponseEntity.ok("User added successfully");
     }
 

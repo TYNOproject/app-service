@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AddNewUserRequest {
-
     private String email;
+    private String password;
     private String name;
     private Integer degree;
     private Integer faculty;
