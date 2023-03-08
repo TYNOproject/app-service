@@ -32,12 +32,13 @@ public class MainController {
         String email = addNewUserRequest.getEmail();
         String name = addNewUserRequest.getName();
         Integer degree = addNewUserRequest.getDegree();
+        Integer faculty = addNewUserRequest.getFacultyId();
         Integer departmentId = addNewUserRequest.getDepartmentId();
         Integer year = addNewUserRequest.getYear();
         boolean isTeacher = addNewUserRequest.isTeacher();
         Double price = addNewUserRequest.getPrice();
         String privateInfo = addNewUserRequest.getPrivateInfo();
-        service.saveUser(email, name, degree, departmentId, year, isTeacher, price, privateInfo);
+        service.saveUser(email, name, degree, faculty, departmentId, year, isTeacher, price, privateInfo);
         return ResponseEntity.ok("User added successfully");
     }
 
@@ -66,7 +67,7 @@ public class MainController {
         Integer classId = bookClassRequest.getClassId();
         Integer studentId = bookClassRequest.getStudentId();
         String response = service.bookClass(classId, studentId);
-        if(response.equals("Class booked successfully"))
+        if (response.equals("Class booked successfully"))
             return ResponseEntity.ok(response);
         else
             return ResponseEntity.badRequest().body(response);
@@ -78,7 +79,7 @@ public class MainController {
         String textReview = addReviewToClassRequest.getTextReview();
         Integer starsReview = addReviewToClassRequest.getStarsReview();
         boolean response = service.addReview(classId, textReview, starsReview);
-        if(response)
+        if (response)
             return ResponseEntity.ok("Review added successfully");
         else
             return ResponseEntity.badRequest().body("Request failed");
@@ -89,7 +90,7 @@ public class MainController {
         Integer studentId = updatePersonalDetailsRequest.getStudentId();
         String privateInfo = updatePersonalDetailsRequest.getPrivateInfo();
         boolean response = service.updatePersonalDetails(studentId, privateInfo);
-        if(response)
+        if (response)
             return ResponseEntity.ok("Successfully updated personal details");
         else
             return ResponseEntity.badRequest().body("Request failed");
@@ -99,7 +100,7 @@ public class MainController {
     public ResponseEntity<?> bookClass(@RequestBody SetStudentAsTeacherRequest setStudentAsTeacherRequest) {
         Integer studentId = setStudentAsTeacherRequest.getStudentId();
         boolean response = service.setStudentAsTeacher(studentId);
-        if(response)
+        if (response)
             return ResponseEntity.ok("Successfully signed student as teacher");
         else
             return ResponseEntity.badRequest().body("Request failed");

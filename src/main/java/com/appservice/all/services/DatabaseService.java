@@ -32,12 +32,13 @@ public class DatabaseService {
     private ClassRepository classRepository;
 
     @Transactional
-    public void saveUser(String email, String name, Integer degree, Integer departmentId, Integer year,
+    public void saveUser(String email, String name, Integer degree,Integer faculty, Integer departmentId, Integer year,
                          Boolean isTeacher, Double price, String privateInfo) {
         User user = User.builder()
                 .email(email)
                 .name(name)
                 .degree(degree)
+                .facultyId(faculty)
                 .departmentId(departmentId)
                 .year(year)
                 .isTeacher(isTeacher)
@@ -110,7 +111,7 @@ public class DatabaseService {
                 .build();
         classRepository.save(cls);
     }
-
+    @Transactional
     public String bookClass(Integer classId, Integer studentId) {
         Optional<Class> optionalClass = classRepository.findById(classId);
         if (optionalClass.isPresent()) {
@@ -128,7 +129,7 @@ public class DatabaseService {
             return "Class not found";
         }
     }
-
+    @Transactional
     public boolean updatePersonalDetails(Integer studentId, String privateInfo) {
         Optional<User> optionalUser = userRepository.findById(studentId);
 
@@ -141,7 +142,7 @@ public class DatabaseService {
             return false;
         }
     }
-
+    @Transactional
     public boolean addReview(Integer classId, String textReview, Integer starsReview) {
         Optional<Class> optionalClass = classRepository.findById(classId);
 
@@ -155,7 +156,7 @@ public class DatabaseService {
             return false;
         }
     }
-
+    @Transactional
     public boolean setStudentAsTeacher(Integer studentId) {
         Optional<User> optionalUser = userRepository.findById(studentId);
 
