@@ -32,7 +32,7 @@ public class MainController {
         String email = addNewUserRequest.getEmail();
         String name = addNewUserRequest.getName();
         Integer degree = addNewUserRequest.getDegree();
-        Integer faculty = addNewUserRequest.getFacultyId();
+        Integer faculty = addNewUserRequest.getFaculty();
         Integer departmentId = addNewUserRequest.getDepartmentId();
         Integer year = addNewUserRequest.getYear();
         boolean isTeacher = addNewUserRequest.isTeacher();
