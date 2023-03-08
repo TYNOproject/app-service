@@ -10,7 +10,7 @@ public class AddNewUserRequest {
     private String email;
     private String name;
     private Integer degree;
-    private Integer facultyId;
+    private Integer faculty;
     private Integer departmentId;
     private Integer year;
     private boolean isTeacher;
