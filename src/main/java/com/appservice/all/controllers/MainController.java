@@ -45,11 +45,8 @@ public class MainController {
     public ResponseEntity<?> addUser(@RequestBody SignInRequest signInRequest) {
         String email = signInRequest.getEmail();
         String password = signInRequest.getPassword();
-        String response = service.signIn(email, password);
-        if(response.equals("User signed in successfully"))
-            return ResponseEntity.ok(response);
-        else
-            return ResponseEntity.badRequest().body(response);
+        return service.signIn(email, password);
+
     }
 
     @PostMapping("/add/class")

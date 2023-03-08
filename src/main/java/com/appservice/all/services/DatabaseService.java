@@ -10,6 +10,7 @@ import com.appservice.all.Postgres.TeacherCourseRepository;
 import com.appservice.all.Postgres.UserRepository;
 import com.appservice.all.Entities.Class;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -168,18 +169,18 @@ public class DatabaseService {
         }
     }
 
-    public String signIn(String email, String password) {
+    public ResponseEntity<User> signIn(String email, String password) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(email));
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getPassword().equals(password)) {
-                return "User signed in successfully";
+                return ResponseEntity.ok(user);
             } else {
-                return "Wrong password";
+                return ResponseEntity.badRequest().body(null);
             }
         } else {
-            return "User not found";
+            return ResponseEntity.notFound().build();
         }
     }
 }
