@@ -1,4 +1,4 @@
-package com.appservice.all.Entities;
+package com.appservice.all.Entities.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AddReviewToClassRequest {
 
-    private Integer classId;
+    private Long classId;
     private Integer starsReview;
     private String textReview;
 

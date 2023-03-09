@@ -36,16 +36,20 @@ public class Class {
     @Column(name = "text_review")
     private String textReview;
 
-    @Column(name = "course_id")
-    private Integer courseId;
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
 
-    @Column(name = "teacher_id")
-    private Integer teacherId;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    private User teacher;
 
-    @Column(name = "student_id")
-    private Integer studentId;
+    @ManyToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private User student;
 
     public boolean isAvailable() {
         return this.status.equals("available");
     }
+    public boolean isPending() {return this.status.equals("pending");}
 }

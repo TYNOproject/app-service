@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    List<Course> findAllByDepartmentId(Integer departmentId);
+    List<Course> findAllByDepartmentId(Long departmentId);
 
     Course findCourseByCourseName(String courseName);
 
     List<Course> findAllByCourseNameContainingIgnoreCase(String courseName);
 
-    List<Course> findAllById(Iterable<Integer> courseIds);
+    List<Course> findAllById(Iterable<Long> courseIds);
 }

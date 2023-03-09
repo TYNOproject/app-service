@@ -17,33 +17,35 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "faculty_id", nullable = false)
-    private Integer facultyId;
+    @ManyToOne
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    private Faculty faculty;
 
-    @Column(name = "department_id", nullable = false)
-    private Integer departmentId;
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
-    @Column(name = "degree", nullable = false)
+    @Column(name = "degree")
     private Integer degree;
-    @Column(name = "year", nullable = false)
+    @Column(name = "year")
     private Integer year;
-    @Column(name = "is_teacher", nullable = false)
+    @Column(name = "is_teacher")
     private Boolean isTeacher;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
-    @Column(name = "private_info", nullable = false)
+    @Column(name = "private_info")
     private String privateInfo;
 }

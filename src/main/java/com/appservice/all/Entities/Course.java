@@ -1,6 +1,8 @@
 package com.appservice.all.Entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,13 +10,16 @@ import java.util.Date;
 @Entity
 @Table(name = "courses")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "department_id", nullable = false)
-    private Integer departmentId;
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
     @Column(name = "year", nullable = false)
     private Integer year;
