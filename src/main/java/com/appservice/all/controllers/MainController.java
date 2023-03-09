@@ -120,6 +120,35 @@ public class MainController {
         return response;
     }
 
+    @PostMapping("/searchCourses")
+    public ResponseEntity<List<Course>> searchCourses(@RequestBody SearchCoursesRequest searchCoursesRequest) {
+        String courseName = searchCoursesRequest.getCourseName();
+        Integer departmentId = searchCoursesRequest.getDepartmentId();
+        Integer year = searchCoursesRequest.getYear();
+
+        List<Course> courses = service.searchCourses(courseName, departmentId, year);
+        ResponseEntity<List<Course>> response;
+        if (courses.isEmpty()) {
+            response = ResponseEntity.notFound().build();
+        } else {
+            response = ResponseEntity.ok(courses);
+        }
+        return response;
+    }
+
+    @GetMapping("/{courseId}/teachers")
+    public ResponseEntity<List<User>> getTeachersForCourse(@PathVariable Integer courseId) {
+        log.info("got a request with course id:{}", courseId);
+        List<User> teachersOfCourse = service.getTeachersForCourse(courseId);
+        ResponseEntity<List<User>> response;
+        if (teachersOfCourse.isEmpty()) {
+            response = ResponseEntity.notFound().build();
+        } else {
+            response = ResponseEntity.ok(teachersOfCourse);
+        }
+        return response;
+    }
+
     @PostMapping("/getTeachersByCourse")
     public ResponseEntity<List<User>> getTeachersByCourse(@RequestBody GetTeachersByCourseRequest getTeachersByCourseRequest) {
         Course course = service.getCourseByName(getTeachersByCourseRequest.getCourseName());

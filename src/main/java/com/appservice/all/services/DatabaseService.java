@@ -185,4 +185,25 @@ public class DatabaseService {
             return ResponseEntity.notFound().build();
         }
     }
+
+    public List<User> getTeachersForCourse(Integer courseId) {
+        List<TeacherCourse> teacherCourses = teacherCourseRepository.findAllByCourseId(courseId);
+        List<Integer> teacherIds = teacherCourses.stream().map(TeacherCourse::getTeacherId).collect(Collectors.toList());
+        return userRepository.findAllById(teacherIds);
+    }
+
+    public List<Course> searchCourses(String courseName, Integer departmentId, Integer year) {
+        List<Course> courses = courseRepository.findAll();
+
+        if(courseName != null) {
+            courses = courses.stream().filter(c -> c.getCourseName().equals(courseName)).collect(Collectors.toList());
+        }
+        if(departmentId != null) {
+            courses = courses.stream().filter(c -> c.getDepartmentId().equals(departmentId)).collect(Collectors.toList());
+        }
+        if(year != null) {
+            courses = courses.stream().filter(c -> c.getYear().equals(year)).collect(Collectors.toList());
+        }
+        return courses;
+    }
 }
