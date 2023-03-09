@@ -1,4 +1,4 @@
-package com.appservice.all.Entities;
+package com.appservice.all.Entities.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +9,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AddNewClassRequest {
 
-    private Integer courseId;
-    private Integer teacherId;
-    private Integer studentId;
+    private Long courseId;
+    private Long teacherId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String status;
-    private Integer starsReview;
-    private String textReview;
 
     // getters and setters
 }

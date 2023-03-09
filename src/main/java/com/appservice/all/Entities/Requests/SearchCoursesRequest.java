@@ -1,4 +1,4 @@
-package com.appservice.all.Entities;
+package com.appservice.all.Entities.Requests;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchCoursesRequest {
     private String courseName;
-    private Integer departmentId;
+    private Long departmentId;
     private Integer year;
 }

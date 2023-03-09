@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClassRepository extends JpaRepository<Class, Integer> {
-    List<Class> findAllByTeacherId(Integer teacherId);
+public interface ClassRepository extends JpaRepository<Class, Long> {
+    List<Class> findAllByTeacherId(Long teacherId);
 }

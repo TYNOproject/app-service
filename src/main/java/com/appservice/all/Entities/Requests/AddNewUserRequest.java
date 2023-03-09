@@ -1,4 +1,4 @@
-package com.appservice.all.Entities;
+package com.appservice.all.Entities.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,12 +10,8 @@ public class AddNewUserRequest {
     private String password;
     private String name;
     private Integer degree;
-    private Integer faculty;
-    private Integer departmentId;
+    private Long faculty;
+    private Long department;
     private Integer year;
     private boolean isTeacher;
-    private Double price;
-    private String privateInfo;
-
-    // getters and setters
 }

@@ -4,10 +4,7 @@ import com.appservice.all.Entities.Course;
 import com.appservice.all.Entities.Review;
 import com.appservice.all.Entities.TeacherCourse;
 import com.appservice.all.Entities.User;
-import com.appservice.all.Postgres.ClassRepository;
-import com.appservice.all.Postgres.CourseRepository;
-import com.appservice.all.Postgres.TeacherCourseRepository;
-import com.appservice.all.Postgres.UserRepository;
+import com.appservice.all.Postgres.*;
 import com.appservice.all.Entities.Class;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,27 +27,32 @@ public class DatabaseService {
     private TeacherCourseRepository teacherCourseRepository;
     @Autowired
     private ClassRepository classRepository;
+    @Autowired
+    private FacultyRepository facultyRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Transactional
-    public void saveUser(String email,String password, String name, Integer degree,Integer faculty, Integer departmentId, Integer year,
-                         Boolean isTeacher, Double price, String privateInfo) {
+    public void saveUser(String email,String password, String name, Integer degree,Long faculty, Long departmentId, Integer year,
+                         Boolean isTeacher) {
         User user = User.builder()
                 .email(email)
                 .password(password)
                 .name(name)
                 .degree(degree)
-                .facultyId(faculty)
-                .departmentId(departmentId)
+                .faculty(facultyRepository.findById(faculty).orElse(null))
+                .department(departmentRepository.findById(departmentId).orElse(null))
                 .year(year)
+                .price(0.0)
                 .isTeacher(isTeacher)
-                .price(price)
-                .privateInfo(privateInfo)
+                .privateInfo("")
                 .build();
 
         userRepository.save(user);
     }
 
-    public List<Course> getCoursesByDepartmentName(Integer departmentId) {
+    public List<Course> getCoursesByDepartmentName(Long departmentId) {
         return courseRepository.findAllByDepartmentId(departmentId);
     }
 
@@ -63,7 +65,7 @@ public class DatabaseService {
         return teacherCourseRepository.findAllByCourseId(course.getId());
     }
 
-    public List<User> getUsersByIds(List<Integer> userIds) {
+    public List<User> getUsersByIds(List<Long> userIds) {
         return userRepository.findAllById(userIds);
     }
     public List<User> getTeachersContainingString(String searchString) {
@@ -78,7 +80,7 @@ public class DatabaseService {
         return userRepository.findAllByIsTeacherTrue();
     }
 
-    public List<Review> getTeacherReviews(Integer teacherId) {
+    public List<Review> getTeacherReviews(Long teacherId) {
         List<Review> reviews = new ArrayList<>();
         List<Class> classes = classRepository.findAllByTeacherId(teacherId);
         for (Class cls : classes) {
@@ -91,21 +93,21 @@ public class DatabaseService {
         return reviews;
     }
 
-    public List<Course> getCoursesByTeacher(Integer teacherId) {
+    public List<Course> getCoursesByTeacher(Long teacherId) {
         List<Course> courses = new ArrayList<>();
         List<TeacherCourse> teacherCourses = teacherCourseRepository.findAllByTeacherId(teacherId);
-        List<Integer> courseIds = teacherCourses.stream().map(TeacherCourse::getCourseId).collect(Collectors.toList());
+        List<Long> courseIds = teacherCourses.stream().map(tc -> tc.getCourse().getId()).collect(Collectors.toList());
         return courseRepository.findAllById(courseIds);
     }
 
-    public List<Class> getClassesByTeacher(Integer teacherId) {
+    public List<Class> getClassesByTeacher(Long teacherId) {
         return classRepository.findAllByTeacherId(teacherId);
     }
 
-    public void saveClass(Integer courseId, Integer teacherId, LocalDateTime startTime, LocalDateTime endTime, String status) {
+    public void saveClass(Long courseId, Long teacherId, LocalDateTime startTime, LocalDateTime endTime, String status) {
         Class cls = Class.builder()
-                .courseId(courseId)
-                .teacherId(teacherId)
+                .course(courseRepository.findById(courseId).get())
+                .teacher(userRepository.findById(teacherId).get())
                 .startTime(startTime)
                 .endTime(endTime)
                 .status(status)
@@ -113,14 +115,14 @@ public class DatabaseService {
         classRepository.save(cls);
     }
     @Transactional
-    public String bookClass(Integer classId, Integer studentId) {
+    public String bookClass(Long classId, Long studentId) {
         Optional<Class> optionalClass = classRepository.findById(classId);
         if (optionalClass.isPresent()) {
             Class cls = optionalClass.get();
 
             if (cls.getStatus().equals("available")) {
-                cls.setStudentId(studentId);
-                cls.setStatus("booked");
+                cls.setStudent(userRepository.findById(studentId).get());
+                cls.setStatus("pending");
                 classRepository.save(cls);
                 return "Successfully booked class";
             } else {
@@ -131,7 +133,7 @@ public class DatabaseService {
         }
     }
     @Transactional
-    public boolean updatePersonalDetails(Integer studentId, String privateInfo) {
+    public boolean updatePersonalDetails(Long studentId, String privateInfo) {
         Optional<User> optionalUser = userRepository.findById(studentId);
 
         if (optionalUser.isPresent()) {
@@ -144,7 +146,7 @@ public class DatabaseService {
         }
     }
     @Transactional
-    public boolean addReview(Integer classId, String textReview, Integer starsReview) {
+    public boolean addReview(Long classId, String textReview, Integer starsReview) {
         Optional<Class> optionalClass = classRepository.findById(classId);
 
         if (optionalClass.isPresent()) {
@@ -158,7 +160,7 @@ public class DatabaseService {
         }
     }
     @Transactional
-    public boolean setStudentAsTeacher(Integer studentId) {
+    public boolean setStudentAsTeacher(Long studentId) {
         Optional<User> optionalUser = userRepository.findById(studentId);
 
         if (optionalUser.isPresent()) {
@@ -186,13 +188,13 @@ public class DatabaseService {
         }
     }
 
-    public List<User> getTeachersForCourse(Integer courseId) {
+    public List<User> getTeachersForCourse(Long courseId) {
         List<TeacherCourse> teacherCourses = teacherCourseRepository.findAllByCourseId(courseId);
-        List<Integer> teacherIds = teacherCourses.stream().map(TeacherCourse::getTeacherId).collect(Collectors.toList());
+        List<Long> teacherIds = teacherCourses.stream().map(tc -> tc.getTeacher().getId()).collect(Collectors.toList());
         return userRepository.findAllById(teacherIds);
     }
 
-    public List<Course> searchCourses(String courseName, Integer departmentId, Integer year) {
+    public List<Course> searchCourses(String courseName, Long departmentId, Integer year) {
         List<Course> courses;
         if(courseName != null) {
             courses = courseRepository.findAllByCourseNameContainingIgnoreCase(courseName);
@@ -200,7 +202,7 @@ public class DatabaseService {
              courses = courseRepository.findAll();
         }
         if(departmentId != null) {
-            courses = courses.stream().filter(c -> c.getDepartmentId().equals(departmentId)).collect(Collectors.toList());
+            courses = courses.stream().filter(c -> c.getDepartment().getId().equals(departmentId)).collect(Collectors.toList());
         }
         if(year != null) {
             courses = courses.stream().filter(c -> c.getYear().equals(year)).collect(Collectors.toList());

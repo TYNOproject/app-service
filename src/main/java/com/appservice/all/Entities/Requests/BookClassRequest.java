@@ -1,4 +1,4 @@
-package com.appservice.all.Entities;
+package com.appservice.all.Entities.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class BookClassRequest {
-    private Integer classId;
-    private Integer studentId;
+    private Long classId;
+    private Long studentId;
 }

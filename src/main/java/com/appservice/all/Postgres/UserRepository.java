@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByIsTeacherTrue();
     List<User> findAll();
-    List<User> findAllById(Iterable<Integer> ids);
+    List<User> findAllById(Iterable<Long> ids);
 
     User findByEmail(String email);
 
