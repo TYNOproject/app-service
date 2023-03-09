@@ -193,10 +193,11 @@ public class DatabaseService {
     }
 
     public List<Course> searchCourses(String courseName, Integer departmentId, Integer year) {
-        List<Course> courses = courseRepository.findAll();
-
+        List<Course> courses;
         if(courseName != null) {
-            courses = courses.stream().filter(c -> c.getCourseName().equals(courseName)).collect(Collectors.toList());
+            courses = courseRepository.findAllByCourseNameContainingIgnoreCase(courseName);
+        } else {
+             courses = courseRepository.findAll();
         }
         if(departmentId != null) {
             courses = courses.stream().filter(c -> c.getDepartmentId().equals(departmentId)).collect(Collectors.toList());
