@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +26,14 @@ public class ClassesController {
     DatabaseService service;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addNewClass(@RequestBody AddNewClassRequest addNewUserRequest) {
-        Long courseId = addNewUserRequest.getCourseId();
-        Long teacherId = addNewUserRequest.getTeacherId();
-        LocalDateTime startTime = addNewUserRequest.getStartTime();
-        LocalDateTime endTime = addNewUserRequest.getEndTime();
+    public ResponseEntity<?> addNewClass(@RequestBody AddNewClassRequest addNewClassRequest) {
+        Long courseId = addNewClassRequest.getCourseId();
+        Long teacherId = addNewClassRequest.getTeacherId();
+        Date date = addNewClassRequest.getDate();
+        LocalTime startTime = addNewClassRequest.getStartTime();
+        LocalTime endTime = addNewClassRequest.getEndTime();
         String status = AVAILABLE;
-        service.saveClass(courseId, teacherId, startTime, endTime, status);
+        service.saveClass(courseId, teacherId,date, startTime, endTime, status);
 
         return ResponseEntity.ok("Class added successfully");
     }

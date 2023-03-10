@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,10 +106,11 @@ public class DatabaseService {
         return classRepository.findAllByTeacherId(teacherId);
     }
 
-    public void saveClass(Long courseId, Long teacherId, LocalDateTime startTime, LocalDateTime endTime, String status) {
+    public void saveClass(Long courseId, Long teacherId, Date date, LocalTime startTime, LocalTime endTime, String status) {
         Class cls = Class.builder()
                 .course(courseRepository.findById(courseId).get())
                 .teacher(userRepository.findById(teacherId).get())
+                .date(date)
                 .startTime(startTime)
                 .endTime(endTime)
                 .status(status)
