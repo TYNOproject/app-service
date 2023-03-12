@@ -86,15 +86,17 @@ public class DatabaseService {
         List<Review> reviews = new ArrayList<>();
         List<Class> classes = classRepository.findAllByTeacherId(teacherId);
         for (Class cls : classes) {
-            Review review = Review.builder()
-                    .textReview(cls.getTextReview())
-                    .starsReview(cls.getStarsReview())
-                    .studentId(cls.getStudent().getId())
-                    .teacherId(cls.getTeacher().getId())
-                    .studentName(cls.getStudent().getName())
-                    .teacherName(cls.getTeacher().getName())
-                    .build();
-            reviews.add(review);
+            if(cls.getTextReview() != null && cls.getStarsReview() != null){
+                Review review = Review.builder()
+                        .textReview(cls.getTextReview())
+                        .starsReview(cls.getStarsReview())
+                        .studentId(cls.getStudent().getId())
+                        .teacherId(cls.getTeacher().getId())
+                        .studentName(cls.getStudent().getName())
+                        .teacherName(cls.getTeacher().getName())
+                        .build();
+                reviews.add(review);
+            }
         }
         return reviews;
     }
