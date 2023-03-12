@@ -89,6 +89,10 @@ public class DatabaseService {
             Review review = Review.builder()
                     .textReview(cls.getTextReview())
                     .starsReview(cls.getStarsReview())
+                    .studentId(cls.getStudent().getId())
+                    .teacherId(cls.getTeacher().getId())
+                    .studentName(cls.getStudent().getName())
+                    .teacherName(cls.getTeacher().getName())
                     .build();
             reviews.add(review);
         }

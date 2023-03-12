@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Review {
+    private String teacherName;
+    private String studentName;
+    private Long teacherId;
+    private Long studentId;
     private String textReview;
     private Integer starsReview;
 }
