@@ -43,7 +43,7 @@ public class ClassesController {
         Long classId = bookClassRequest.getClassId();
         Long studentId = bookClassRequest.getStudentId();
         String response = service.bookClass(classId, studentId);
-        if (response.equals("Class booked successfully"))
+        if (response.equals("Successfully booked class"))
             return ResponseEntity.ok(response);
         else
             return ResponseEntity.badRequest().body(response);

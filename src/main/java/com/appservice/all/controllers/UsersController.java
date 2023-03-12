@@ -157,5 +157,18 @@ public class UsersController {
         return response;
     }
 
+    @GetMapping("/students/{studentId}/classes")
+    public ResponseEntity<List<Class>> getClassesByStudent(@PathVariable Long studentId) {
+        log.info("Getting classes for student with id: {}", studentId);
+        List<Class> classes = service.getClassesByStudent(studentId);
+        ResponseEntity<List<Class>> response;
+        if (classes.isEmpty()) {
+            response = ResponseEntity.notFound().build();
+        } else {
+            response = ResponseEntity.ok(classes);
+        }
+        return response;
+    }
+
 
 }

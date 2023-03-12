@@ -212,4 +212,8 @@ public class DatabaseService {
         }
         return courses;
     }
+
+    public List<Class> getClassesByStudent(Long studentId) {
+        return classRepository.findAllByStudentId(studentId);
+    }
 }
