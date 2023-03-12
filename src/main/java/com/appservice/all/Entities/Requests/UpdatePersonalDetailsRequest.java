@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UpdatePersonalDetailsRequest {
     private Long studentId;
+    private Long faculty;
+    private Long department;
+    private Integer degree;
+    private Integer year;
     private String privateInfo;
 
     // getters and setters

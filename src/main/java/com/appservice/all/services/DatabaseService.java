@@ -142,17 +142,31 @@ public class DatabaseService {
         }
     }
     @Transactional
-    public boolean updatePersonalDetails(Long studentId, String privateInfo) {
+    public boolean updatePersonalDetails(Long studentId, Long faculty, Long department, Integer degree, Integer year, String privateInfo) {
         Optional<User> optionalUser = userRepository.findById(studentId);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setPrivateInfo(privateInfo);
+            if(faculty != null) {
+                user.setFaculty(facultyRepository.findById(faculty).orElse(null));
+            }
+            if(department != null) {
+                user.setDepartment(departmentRepository.findById(department).orElse(null));
+            }
+            if(degree != null) {
+                user.setDegree(degree);
+            }
+            if (year != null) {
+                user.setYear(year);
+            }
+            if(privateInfo != null){
+                user.setPrivateInfo(privateInfo);
+            }
             userRepository.save(user);
             return true;
         } else {
             return false;
-        }
+        } //3	omri@post.bgu.ac.il	עמרי	1	7	1	false	0.0		4	1234
     }
     @Transactional
     public boolean addReview(Long classId, String textReview, Integer starsReview) {

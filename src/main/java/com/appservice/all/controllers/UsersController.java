@@ -45,8 +45,12 @@ public class UsersController {
     @PostMapping("/updatePrivateInfo")
     public ResponseEntity<?> updatePrivateInfo(@RequestBody UpdatePersonalDetailsRequest updatePersonalDetailsRequest) {
         Long studentId = updatePersonalDetailsRequest.getStudentId();
+        Long faculty = updatePersonalDetailsRequest.getFaculty();
+        Long department = updatePersonalDetailsRequest.getDepartment();
+        Integer degree = updatePersonalDetailsRequest.getDegree();
+        Integer year = updatePersonalDetailsRequest.getYear();
         String privateInfo = updatePersonalDetailsRequest.getPrivateInfo();
-        boolean response = service.updatePersonalDetails(studentId, privateInfo);
+        boolean response = service.updatePersonalDetails(studentId, faculty, department, degree, year, privateInfo);
         if (response)
             return ResponseEntity.ok("Successfully updated personal details");
         else
