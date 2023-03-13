@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -133,6 +132,23 @@ public class DatabaseService {
                 cls.setStudent(userRepository.findById(studentId).get());
                 cls.setStatus("pending");
                 classRepository.save(cls);
+                return "Requested booking successfully, waiting for teacher confirmation";
+            } else {
+                return "Class is not available";
+            }
+        } else {
+            return "Class not found";
+        }
+    }
+
+    @Transactional
+    public String approveClass(Long classId, Long teacherId) {
+        Optional<Class> optionalClass = classRepository.findById(classId);
+        if (optionalClass.isPresent()) {
+            Class cls = optionalClass.get();
+            if (cls.getStatus().equals("pending") && cls.getTeacher().getId().equals(teacherId)) {
+                cls.setStatus("booked");
+                classRepository.save(cls);
                 return "Successfully booked class";
             } else {
                 return "Class is not available";
@@ -141,6 +157,24 @@ public class DatabaseService {
             return "Class not found";
         }
     }
+
+    @Transactional
+    public String rejectClass(Long classId, Long teacherId) {
+        Optional<Class> optionalClass = classRepository.findById(classId);
+        if (optionalClass.isPresent()) {
+            Class cls = optionalClass.get();
+            if (cls.getStatus().equals("pending") && cls.getTeacher().getId().equals(teacherId)) {
+                cls.setStatus("available");
+                classRepository.save(cls);
+                return "Successfully rejected class request";
+            } else {
+                return "Class is not available";
+            }
+        } else {
+            return "Class not found";
+        }
+    }
+
     @Transactional
     public boolean updatePersonalDetails(Long studentId, Long faculty, Long department, Integer degree, Integer year, String privateInfo) {
         Optional<User> optionalUser = userRepository.findById(studentId);

@@ -1,20 +1,14 @@
 package com.appservice.all.controllers;
 
-import com.appservice.all.Entities.Course;
 import com.appservice.all.Entities.Requests.*;
-import com.appservice.all.Entities.TeacherCourse;
-import com.appservice.all.Entities.User;
 import com.appservice.all.services.DatabaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -43,14 +37,36 @@ public class ClassesController {
         Long classId = bookClassRequest.getClassId();
         Long studentId = bookClassRequest.getStudentId();
         String response = service.bookClass(classId, studentId);
+        if (response.equals("Requested booking successfully, waiting for teacher confirmation"))
+            return ResponseEntity.ok(response);
+        else
+            return ResponseEntity.badRequest().body(response);
+    }
+
+    @PostMapping("/approve")
+    public ResponseEntity<?> approveClass(@RequestBody TeacherClassRequest teacherClassRequest) {
+        Long classId = teacherClassRequest.getClassId();
+        Long teacherId = teacherClassRequest.getTeacherId();
+        String response = service.approveClass(classId, teacherId);
         if (response.equals("Successfully booked class"))
             return ResponseEntity.ok(response);
         else
             return ResponseEntity.badRequest().body(response);
     }
 
+    @PostMapping("/reject")
+    public ResponseEntity<?> rejectClass(@RequestBody TeacherClassRequest teacherClassRequest) {
+        Long classId = teacherClassRequest.getClassId();
+        Long teacherId = teacherClassRequest.getTeacherId();
+        String response = service.rejectClass(classId, teacherId);
+        if (response.equals("Successfully rejected class request"))
+            return ResponseEntity.ok(response);
+        else
+            return ResponseEntity.badRequest().body(response);
+    }
+
     @PostMapping("/addReview")
-    public ResponseEntity<?> bookClass(@RequestBody AddReviewToClassRequest addReviewToClassRequest) {
+    public ResponseEntity<?> addReview(@RequestBody AddReviewToClassRequest addReviewToClassRequest) {
         Long classId = addReviewToClassRequest.getClassId();
         String textReview = addReviewToClassRequest.getTextReview();
         Integer starsReview = addReviewToClassRequest.getStarsReview();
