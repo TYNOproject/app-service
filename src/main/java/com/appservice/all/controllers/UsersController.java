@@ -174,5 +174,17 @@ public class UsersController {
         return response;
     }
 
+    @PostMapping("/{studentId}/teacherRequest")
+    public ResponseEntity<?> sendTeacherRequest(@PathVariable Long studentId, @RequestBody SendTeacherRequest sendTeacherRequest) {
+        List<Long> coursesIds = sendTeacherRequest.getCoursesIds();
+        Double price = sendTeacherRequest.getPrice();
+        String privateInfo = sendTeacherRequest.getPrivateInfo();
+        boolean response = service.sendTeacherRequest(studentId, coursesIds, price, privateInfo);
+        if (response)
+            return ResponseEntity.ok("Successfully sent teacher request");
+        else
+            return ResponseEntity.badRequest().body("Request failed");
+    }
+
 
 }

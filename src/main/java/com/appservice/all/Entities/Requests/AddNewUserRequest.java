@@ -14,4 +14,5 @@ public class AddNewUserRequest {
     private Long department;
     private Integer year;
     private boolean isTeacher;
+
 }
