@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class ClassesController {
     public ResponseEntity<?> addNewClass(@RequestBody AddNewClassRequest addNewClassRequest) {
         Long courseId = addNewClassRequest.getCourseId();
         Long teacherId = addNewClassRequest.getTeacherId();
-        Date date = addNewClassRequest.getDate();
+        LocalDate date = addNewClassRequest.getDate();
         LocalTime startTime = addNewClassRequest.getStartTime();
         LocalTime endTime = addNewClassRequest.getEndTime();
         String status = AVAILABLE;

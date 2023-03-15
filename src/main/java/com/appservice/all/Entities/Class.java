@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -23,7 +23,7 @@ public class Class {
     private Long id;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "start_time")
     private LocalTime startTime;
@@ -51,9 +51,18 @@ public class Class {
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private User student;
+    @Column(name = "is_over")
+    private boolean isOver;
 
     public boolean isAvailable() {
         return this.status.equals("available");
     }
     public boolean isPending() {return this.status.equals("pending");}
+
+    @PostLoad
+    private void updateIsOver() {
+        if (this.date.isBefore(LocalDate.now()) || (this.date.equals(LocalDate.now()) && this.getEndTime().isBefore(LocalTime.now()))) {
+            this.isOver = true;
+        }
+    }
 }

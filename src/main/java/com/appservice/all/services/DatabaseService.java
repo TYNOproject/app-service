@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,7 +113,7 @@ public class DatabaseService {
         return classRepository.findAllByTeacherId(teacherId);
     }
 
-    public void saveClass(Long courseId, Long teacherId, Date date, LocalTime startTime, LocalTime endTime, String status) {
+    public void saveClass(Long courseId, Long teacherId, LocalDate date, LocalTime startTime, LocalTime endTime, String status) {
         Class cls = Class.builder()
                 .course(courseRepository.findById(courseId).get())
                 .teacher(userRepository.findById(teacherId).get())
