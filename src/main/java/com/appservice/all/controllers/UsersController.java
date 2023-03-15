@@ -165,12 +165,7 @@ public class UsersController {
     public ResponseEntity<List<Class>> getClassesByStudent(@PathVariable Long studentId) {
         log.info("Getting classes for student with id: {}", studentId);
         List<Class> classes = service.getClassesByStudent(studentId);
-        ResponseEntity<List<Class>> response;
-        if (classes.isEmpty()) {
-            response = ResponseEntity.notFound().build();
-        } else {
-            response = ResponseEntity.ok(classes);
-        }
+        ResponseEntity<List<Class>> response = ResponseEntity.ok(classes);
         return response;
     }
 
