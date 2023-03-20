@@ -31,7 +31,6 @@ public class DatabaseService {
     private ClassRepository classRepository;
     @Autowired
     private FacultyRepository facultyRepository;
-
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -285,8 +284,12 @@ public class DatabaseService {
                                     .setCourse(courseRepository.findById(courseId).get())
                                     .setTeacher(student.get())).collect(Collectors.toList());
             teacherCourseRepository.saveAll(teacherCourses);
-            student.get().setPrice(price);
-            updatePersonalDetails(studentId, null, null, null, null, privateInfo);
+            if(price != null){
+                student.get().setPrice(price);
+            }
+            if(privateInfo != null){
+                student.get().setPrivateInfo(privateInfo);
+            }
             setStudentAsTeacher(studentId);
             return true;
         } else {
