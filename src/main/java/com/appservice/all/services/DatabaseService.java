@@ -278,12 +278,14 @@ public class DatabaseService {
     public boolean sendTeacherRequest(Long studentId, List<Long> coursesIds, Double price, String privateInfo) {
         Optional<User> student = userRepository.findById(studentId);
         if (student.isPresent()) {
-            List<TeacherCourse> teacherCourses =
-                    coursesIds.stream().map(courseId ->
-                            new TeacherCourse()
-                                    .setCourse(courseRepository.findById(courseId).get())
-                                    .setTeacher(student.get())).collect(Collectors.toList());
-            teacherCourseRepository.saveAll(teacherCourses);
+            if(coursesIds != null && !coursesIds.isEmpty()) {
+                List<TeacherCourse> teacherCourses =
+                        coursesIds.stream().map(courseId ->
+                                new TeacherCourse()
+                                        .setCourse(courseRepository.findById(courseId).get())
+                                        .setTeacher(student.get())).collect(Collectors.toList());
+                teacherCourseRepository.saveAll(teacherCourses);
+            }
             if(price != null){
                 student.get().setPrice(price);
             }
