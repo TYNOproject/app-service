@@ -41,6 +41,12 @@ public class UsersController {
 
     }
 
+    @PostMapping("/signInWithGoogle")
+    public ResponseEntity<?> signIn(@RequestBody SignInWithGoogleRequest signInRequest) {
+        String email = signInRequest.getEmail();
+        return service.signInWithGoogle(email);
+    }
+
 
     @PostMapping("/updatePrivateInfo")
     public ResponseEntity<?> updatePrivateInfo(@RequestBody UpdatePersonalDetailsRequest updatePersonalDetailsRequest) {

@@ -298,4 +298,14 @@ public class DatabaseService {
             return false;
         }
     }
+    public ResponseEntity<?> signInWithGoogle(String email) {
+        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(email));
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
