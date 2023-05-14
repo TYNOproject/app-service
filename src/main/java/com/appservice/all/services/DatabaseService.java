@@ -6,7 +6,9 @@ import com.appservice.all.Entities.TeacherCourse;
 import com.appservice.all.Entities.User;
 import com.appservice.all.Postgres.*;
 import com.appservice.all.Entities.Class;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class DatabaseService {
     @Autowired
@@ -299,13 +301,14 @@ public class DatabaseService {
         }
     }
     public ResponseEntity<?> signInWithGoogle(String email) {
+        log.warn("entered signInWithGoogle");
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(email));
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return ResponseEntity.ok(user);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
         }
     }
 }
