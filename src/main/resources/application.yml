@@ -3,6 +3,8 @@ spring:
     url: jdbc:postgresql://myappserver-postgresql.postgres.database.azure.com:5432/postgres
     username: omri
     password: stavCh7052!
+    hikari:
+      max-lifetime: 600000
   jpa:
     properties:
       hibernate:
