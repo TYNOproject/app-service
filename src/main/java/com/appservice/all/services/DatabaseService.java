@@ -306,9 +306,9 @@ public class DatabaseService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return ResponseEntity.status(HttpStatus.OK).body(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body("user not found");
+            return new ResponseEntity<>("user not found", HttpStatus.NO_CONTENT);
         }
     }
 }
